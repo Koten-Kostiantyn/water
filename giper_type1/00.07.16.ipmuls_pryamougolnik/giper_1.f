@@ -277,7 +277,7 @@ C   Calculation of integrals in angular direction
 
 
       omeg_par=sqrt(g*WW2(2)/VV1(2,2))
-	omeg_sob=omeg_par/sqrt(1.-UU1(1,2)*rog/(RMG+RMR)/VV1(2,2))
+      omeg_sob=omeg_par/sqrt(1.-UU1(1,2)**2*rog/(RMG+RMR)/VV1(2,2))
 	Per1=2.*PI/omeg_sob
 	print *, rog,RMR,RMG,VV1(2,2),WW2(2),UU1(1,2)
       print *, omeg_par,omeg_sob,Per1

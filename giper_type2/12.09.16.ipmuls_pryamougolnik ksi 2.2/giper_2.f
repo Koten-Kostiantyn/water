@@ -65,7 +65,7 @@ C   Depth of liquid
       T=0.
       HH=0.025
 	HH=0.001     
-      TK=5.
+      TK=25.
       MU(3)=0
       MU(1)=1
       MU(2)=0
@@ -380,32 +380,11 @@ C   Calculation of integrals in angular direction
       GO TO 13
     4 WRITE (777,105)
   105 FORMAT(/5X,'Termination by time TK')
-
-      call coeff
-
       STOP
       END
 
-      subroutine coeff
-      COMMON/BC/ GAC(6,6,10),DEC(3,3,3,10),HHC(3,3,3,3,10),
-     1VV1(10,10),VV2(10,10,10),VV3(10,10,10,10),UU1(3,10),UU2(3,10,10),
-     2UU3(3,10,10,10),UU4(3,10,10,10,10),WW1(10),WW2(10),WW3(6,6,10),
-     3WW4(3,3,3,10),VZ2(6,6,10),VZ3(3,3,3,10),UZ2(3,10,10),
-     4UZ3(3,6,6,10),UZ4(3,3,3,3,10)
-      open(221,file='v1.txt')
-	open(222,file='u1.txt')
-!	open(223,file='w1.txt')
-	open(224,file='w2.txt')
 
-	write (221,225) vv1(1,1)
-      write (222,225) uu1(1,2)
-!	write (223,225) ww1(1)
-	write (224,225) ww2(1)
-  225 format (f12.5)
 
-	return 
-	end
-  
 
 
 
