@@ -277,7 +277,7 @@ C   Calculation of integrals in angular direction
 
 
       omeg_par=sqrt(g*WW2(2)/VV1(2,2))
-	omeg_sob=omeg_par/sqrt(1.-UU1(1,2)*rog/(RMG+RMR)/VV1(2,2))
+	omeg_sob=omeg_par/sqrt(1.-UU1(1,2)**2*rog/(RMG+RMR)/VV1(2,2))
 	Per1=2.*PI/omeg_sob
 	print *, rog,RMR,RMG,VV1(2,2),WW2(2),UU1(1,2)
       print *, omeg_par,omeg_sob,Per1
@@ -380,31 +380,10 @@ C   Calculation of integrals in angular direction
       GO TO 13
     4 WRITE (777,105)
   105 FORMAT(/5X,'Termination by time TK')
-
-      call coeff
-
       STOP
       END
 
-      subroutine coeff
-      COMMON/BC/ GAC(6,6,10),DEC(3,3,3,10),HHC(3,3,3,3,10),
-     1VV1(10,10),VV2(10,10,10),VV3(10,10,10,10),UU1(3,10),UU2(3,10,10),
-     2UU3(3,10,10,10),UU4(3,10,10,10,10),WW1(10),WW2(10),WW3(6,6,10),
-     3WW4(3,3,3,10),VZ2(6,6,10),VZ3(3,3,3,10),UZ2(3,10,10),
-     4UZ3(3,6,6,10),UZ4(3,3,3,3,10)
-      open(221,file='v1.txt')
-	open(222,file='u1.txt')
-!	open(223,file='w1.txt')
-	open(224,file='w2.txt')
 
-	write (221,225) vv1(1,1)
-      write (222,225) uu1(1,2)
-!	write (223,225) ww1(1)
-	write (224,225) ww2(1)
-  225 format (f12.5)
-
-	return 
-	end
   
 
 
@@ -465,7 +444,7 @@ C   Calculation of integrals in angular direction
 	common/period/Per1,akk,YSIL
 	akk=0.05
       tf=akk*Per1
-	YSIL=4.2
+	YSIL=2.2
 	F=YSIL
 	Y=YSIL
 	PI=3.14159265359
@@ -720,7 +699,7 @@ C      PSZ(I)=0.3
 !     Y=2*x**2      
 !      F0=D2/dsqrt(2.D0)
 !     конус
-      F0=R*(X+H)
+!      F0=R*(X+H)
 !     cylindr
 !      F0=R    
 
@@ -728,7 +707,7 @@ C      PSZ(I)=0.3
 !   11	 IF(X.Gt.Z1) F0=X+H  
 !      F0=(1.d0-R0)*(X+H)+R0
   !  hyperboloid
-  !    F0=bg*sqrt(((X+H+ag)/ag)**2-1.d0)
+      F0=bg*sqrt(((X+H+ag)/ag)**2-1.d0)
       FG=F0
       RETURN
       END
@@ -745,7 +724,7 @@ C      PSZ(I)=0.3
 !     Y=2*x**2      
 !      F0P=0.5/(dsqrt(2.D0)*DSQRT(X+H))
 !     конус
-      F0P=R
+!      F0P=R
 !    cylindr
 !
 !      F0P=0.
@@ -753,7 +732,7 @@ C      PSZ(I)=0.3
 !  11	 IF (X.Gt.z1) F0P=1.
 !      F0P=(1.d0-R0)
    ! hyperboloid
- !     F0P=bg/sqrt(((X+H+ag)/ag)**2-1.d0)*(X+H+ag)/ag**2
+      F0P=bg/sqrt(((X+H+ag)/ag)**2-1.d0)*(X+H+ag)/ag**2
       FGP=F0P
       RETURN
       END
@@ -772,9 +751,8 @@ C      PSZ(I)=0.3
 !       F0=-0.25/(dsqrt(2.D0)*D2**3)
 !   	 IF(X.Gt.Z1) F0=0.
 ! hyperboloid
- !     F0PP=bg/(sqrt(-1.d0+((X+H+ag)/ag)**2)*ag**2)-
- !    1	bg/((-1.d0+((X+H+ag)/ag)**2)**1.5)*((X+H+ag)**2/ag**4)
-      F0PP=0.
+      F0PP=bg/(sqrt(-1.d0+((X+H+ag)/ag)**2)*ag**2)-
+     1	bg/((-1.d0+((X+H+ag)/ag)**2)**1.5)*((X+H+ag)**2/ag**4)
       FGPP=F0PP
       RETURN
       END
@@ -798,10 +776,9 @@ C      PSZ(I)=0.3
 !       F0=0.375/(dsqrt(2.D0)*D2**5)
 !   	 IF(X.Gt.z1) F0=0. 
 ! hyperboloid
-!      a1=ag+H+x
-!	a2=(ag+H+x)**2/ag**2-1. 
-!	F0P3=3.*bg*a1**3/ag**6/a2**2.5-3.*bg*a1/ag**4/a2**1.5
-      F0P3=0.
+      a1=ag+H+x
+	a2=(ag+H+x)**2/ag**2-1. 
+	F0P3=3.*bg*a1**3/ag**6/a2**2.5-3.*bg*a1/ag**4/a2**1.5
       FGP3=F0P3
       RETURN
       END

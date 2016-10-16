@@ -64,7 +64,7 @@ C   Depth of liquid
       G=G0*RKG
       T=0.
       HH=0.025
-	HH=0.001    
+	HH=0.001     
       TK=25.
       MU(3)=0
       MU(1)=1
@@ -277,7 +277,7 @@ C   Calculation of integrals in angular direction
 
 
       omeg_par=sqrt(g*WW2(2)/VV1(2,2))
-	omeg_sob=omeg_par/sqrt(1.-UU1(1,2)*rog/(RMG+RMR)/VV1(2,2))
+	omeg_sob=omeg_par/sqrt(1.-UU1(1,2)**2*rog/(RMG+RMR)/VV1(2,2))
 	Per1=2.*PI/omeg_sob
 	print *, rog,RMR,RMG,VV1(2,2),WW2(2),UU1(1,2)
       print *, omeg_par,omeg_sob,Per1
@@ -384,7 +384,7 @@ C   Calculation of integrals in angular direction
       END
 
 
-
+  
 
 
 
@@ -444,11 +444,11 @@ C   Calculation of integrals in angular direction
 	common/period/Per1,akk,YSIL
 	akk=0.05
       tf=akk*Per1
-	YSIL=4.2
+	YSIL=6.5
 	F=YSIL
 	Y=YSIL
-	if(t.le.tf/2) Y=4*F/tf*T
-	if(t.gt.tf/2.AND.t.le.tf) Y=-4*F/tf*(t-tf/2)+2*F
+	if(t.le.tf/2.) Y=4.*F/tf*T
+	if(t.gt.tf/2.AND.t.le.tf) Y=-4.*F/tf*(t-tf/2)+2*F
 	if(t.gt.tf) Y=0
 
 	XSILA=Y
@@ -698,7 +698,7 @@ C      PSZ(I)=0.3
 !     Y=2*x**2      
 !      F0=D2/dsqrt(2.D0)
 !     конус
-!      F0=R*(X+H)
+      F0=R*(X+H)
 !     cylindr
 !      F0=R    
 
@@ -706,7 +706,7 @@ C      PSZ(I)=0.3
 !   11	 IF(X.Gt.Z1) F0=X+H  
 !      F0=(1.d0-R0)*(X+H)+R0
   !  hyperboloid
-      F0=ag*sqrt(1.d0+((X+H)/bg)**2)
+  !    F0=bg*sqrt(((X+H+ag)/ag)**2-1.d0)
       FG=F0
       RETURN
       END
@@ -723,7 +723,7 @@ C      PSZ(I)=0.3
 !     Y=2*x**2      
 !      F0P=0.5/(dsqrt(2.D0)*DSQRT(X+H))
 !     конус
-!      F0P=R
+      F0P=R
 !    cylindr
 !
 !      F0P=0.
@@ -731,7 +731,7 @@ C      PSZ(I)=0.3
 !  11	 IF (X.Gt.z1) F0P=1.
 !      F0P=(1.d0-R0)
    ! hyperboloid
-      F0P=ag/sqrt(1.d0+((X+H)/bg)**2)*(X+H)/bg**2
+ !     F0P=bg/sqrt(((X+H+ag)/ag)**2-1.d0)*(X+H+ag)/ag**2
       FGP=F0P
       RETURN
       END
@@ -740,7 +740,7 @@ C      PSZ(I)=0.3
       DOUBLE PRECISION X,H,R,D,D1,D2,z1,Hreal,r0,ag,bg
       COMMON/GEO/ H,R,D,D1,D2,Z1,Hreal,r0
       DOUBLE PRECISION F0
-      common/GIPER/ag,bg
+	common/GIPER/ag,bg
        D2=DSQRT(X+H)
 !     Y=x**2
       F0=-0.25/DSQRT(X+H)/(X+H)
@@ -750,8 +750,9 @@ C      PSZ(I)=0.3
 !       F0=-0.25/(dsqrt(2.D0)*D2**3)
 !   	 IF(X.Gt.Z1) F0=0.
 ! hyperboloid
-      F0PP=(ag/(sqrt(1.d0+((X+H)/bg)**2)*bg**2))-ag/(1.d0+
-     &	((X+H)/bg)**2)**1.5*(X+H)**2/bg**4
+ !     F0PP=bg/(sqrt(-1.d0+((X+H+ag)/ag)**2)*ag**2)-
+ !    1	bg/((-1.d0+((X+H+ag)/ag)**2)**1.5)*((X+H+ag)**2/ag**4)
+      F0PP=0.
       FGPP=F0PP
       RETURN
       END
@@ -764,23 +765,21 @@ C      PSZ(I)=0.3
       DOUBLE PRECISION FUNCTION FGP3(X)
       DOUBLE PRECISION X,H,R,D,D1,D2,z1,Hreal,r0,ag,bg
       COMMON/GEO/ H,R,D,D1,D2,Z1,Hreal,r0
-      DOUBLE PRECISION F0,a1,a2,a3,a4
+      DOUBLE PRECISION F0,a1,a2,a3,a4,a5
 	common/GIPER/ag,bg
        D2=DSQRT(X+H)
 !     Y=x**2
-!	F0=0.375/DSQRT(X+H)/(X+H)/(X+H)
+	F0=0.375/DSQRT(X+H)/(X+H)/(X+H)
 !     Y=1/2*x**2
 !      F0=dsqrt(2.D0)*0.375/D2**5
 !     Y=2*x**2
 !       F0=0.375/(dsqrt(2.D0)*D2**5)
 !   	 IF(X.Gt.z1) F0=0. 
 ! hyperboloid
-      a1=3.*ag/bg**6*(x+H)**3
-      a2=((x+H)/bg)**2+1.
-	a3=a2**2.5
-	a4=a1/a3
-	a1=3.*ag*(x+H)/bg**4/a2**1.5
-	F0P3=a4-a1
+!      a1=ag+H+x
+!	a2=(ag+H+x)**2/ag**2-1. 
+!	F0P3=3.*bg*a1**3/ag**6/a2**2.5-3.*bg*a1/ag**4/a2**1.5
+      F0P3=0.
       FGP3=F0P3
       RETURN
       END
