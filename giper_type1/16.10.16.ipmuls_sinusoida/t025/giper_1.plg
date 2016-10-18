@@ -6,7 +6,7 @@
 --------------------Configuration: giper_1 - Win32 Debug--------------------
 </h3>
 <h3>Command Lines</h3>
-Creating command line "link.exe kernel32.lib /nologo /subsystem:console /incremental:yes /pdb:"Debug/giper_1.pdb" /debug /machine:I386 /out:"Debug/giper_1.exe" /pdbtype:sept  ".\Debug\giper_1.obj" "
+Creating command line "link.exe kernel32.lib /nologo /subsystem:console /incremental:yes /pdb:"Debug/giper_1.pdb" /debug /machine:I386 /out:"Debug/giper_1.exe" /pdbtype:sept  .\Debug\giper_1.obj "
 <h3>Output Window</h3>
 Linking...
 
