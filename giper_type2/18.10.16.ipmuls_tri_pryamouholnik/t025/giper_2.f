@@ -445,6 +445,7 @@ C   Calculation of integrals in angular direction
 	akk=0.25
       tf=akk*Per1
 	YSIL=0.84
+	Y=YSIL
       HEIT=2*Y
       if(t.lt.tf) Y=(-HEIT/tf)*t+HEIT
       if(t.ge.tf) Y=0.
