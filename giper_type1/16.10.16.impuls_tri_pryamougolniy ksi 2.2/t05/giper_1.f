@@ -279,6 +279,7 @@ C   Calculation of integrals in angular direction
       omeg_par=sqrt(g*WW2(2)/VV1(2,2))
       omeg_sob=omeg_par/sqrt(1.-UU1(1,2)**2*rog/(RMG+RMR)/VV1(2,2))
 	Per1=2.*PI/omeg_sob
+      print *, per1
 	print *, rog,RMR,RMG,VV1(2,2),WW2(2),UU1(1,2)
       print *, omeg_par,omeg_sob,Per1
 	pause
@@ -442,11 +443,11 @@ C   Calculation of integrals in angular direction
 ! тут толчек резервуара, с силой xsila, треуголник прмоугольный толчек "_L_"
       FUNCTION XSILA(T)
 	common/period/Per1,akk,YSIL
-	akk=0.5
+	akk=0.1
       tf=akk*Per1
-	YSIL=0.22
+	YSIL=2.
 	Y=YSIL
-	HEIT=2*Y
+	HEIT=2.*Y
 	if(t.lt.tf) Y=(-HEIT/tf)*t+HEIT
 	if(t.ge.tf) Y=0.
 	
